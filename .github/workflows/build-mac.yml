@@ -1,0 +1,31 @@
+name: Build Olio Cristallo for macOS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Installa dipendenze
+        run: npm install
+
+      - name: Build universale (Intel + Apple Silicon)
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: npx electron-builder --mac dmg zip --universal
+
+      - name: Carica artefatto
+        uses: actions/upload-artifact@v4
+        with:
+          name: Olio-Cristallo-macOS-universal
+          path: |
+            release/*.dmg
+            release/*.zip
+          if-no-files-found: error
