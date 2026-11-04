@@ -1,27 +1,37 @@
 @echo off
-chcp 65001 >nul
-cd /d "%~dp0"
-echo ======================================
-echo       OLIO CRISTALLO - BUILD
- echo ======================================
-where node >nul 2>nul
-if errorlevel 1 (
-  echo Node.js non trovato. Installa la versione LTS da https://nodejs.org/
-  pause
-  exit /b 1
+title Compilazione Olio Cristallo
+echo ==========================================
+echo   Compilazione Olio Cristallo per Windows
+echo ==========================================
+echo.
+
+:: Controllo se Node.js e' installato
+where npm >nul 2>nul
+if %errorlevel% neq 0 (
+    echo ERRORE: Node.js ^(npm^) non e' installato o non e' nel PATH.
+    echo Per favore, scaricalo da https://nodejs.org/ e riprova.
+    echo.
+    pause
+    exit /b
 )
-echo Installazione dipendenze...
-call npm install
-if errorlevel 1 goto error
-echo Creazione installer e versione portable...
-call npm run dist:win
-if errorlevel 1 goto error
+
+:: Controllo se la cartella node_modules esiste
+if not exist "node_modules\" (
+    echo [1/2] Installazione delle dipendenze in corso...
+    echo Questa operazione potrebbe richiedere qualche minuto al primo avvio.
+    call npm install
+) else (
+    echo [1/2] Dipendenze gia' presenti.
+)
+
 echo.
-echo Build completata. Trovi i file nella cartella release.
-pause
-exit /b 0
-:error
+echo [2/2] Creazione del file .exe in corso...
+call npm run dist
+
 echo.
-echo Build non riuscita. Controlla la connessione e i messaggi qui sopra.
+echo ==========================================
+echo   OPERAZIONE COMPLETATA!
+echo   Troverai il tuo file .exe di installazione
+echo   all'interno della cartella "dist".
+echo ==========================================
 pause
-exit /b 1
