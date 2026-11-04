@@ -1,0 +1,35 @@
+{
+  "name": "olio-cristallo",
+  "version": "1.0.0",
+  "description": "Olio Cristallo: avventura RPG retrò in un mondo rurale abruzzese.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [
+    "rpg",
+    "retro",
+    "abruzzo"
+  ],
+  "author": "Nicola Laurora",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.poderetto.oliocristallo",
+    "productName": "Olio Cristallo",
+    "mac": {
+      "category": "public.app-category.games"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}
