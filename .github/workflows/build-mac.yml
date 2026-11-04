@@ -26,6 +26,6 @@ jobs:
         with:
           name: Olio-Cristallo-macOS-universal
           path: |
-            release/*.dmg
-            release/*.zip
+            dist/*.dmg
+            dist/*.zip
           if-no-files-found: error
